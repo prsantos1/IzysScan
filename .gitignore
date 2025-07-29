@@ -1,0 +1,23 @@
+# Outputs
+outputs/
+logs/
+reports/
+
+# Environment
+.env.local
+.env.production
+
+# Docker
+.dockerignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporários
+*.tmp
+*.temp
+*.bak
+
+# Logs
+*.log

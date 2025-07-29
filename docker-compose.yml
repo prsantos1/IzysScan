@@ -1,0 +1,34 @@
+services:
+  masscan:
+    image: ${MASSCAN_IMAGE:-letiemble/masscan:latest}
+    container_name: masscan
+    platform: "${MASSCAN_PLATFORM}"
+    network_mode: host
+    user: "${UID}:${GID}"
+    volumes:
+      - ./outputs/masscan:/data
+    environment:
+      - TZ=America/Sao_Paulo
+
+  nmap:
+    build: ./docker/nmap
+    container_name: nmap_nse
+    platform: "${NMAP_PLATFORM}"
+    network_mode: host
+    volumes:
+      - ./outputs/scan_results:/data
+    depends_on:
+      - masscan
+    environment:
+      - TZ=America/Sao_Paulo
+
+  nuclei:
+    image: projectdiscovery/nuclei:latest
+    container_name: nuclei
+    network_mode: host
+    volumes:
+      - ./outputs/scan_results:/data
+    depends_on:
+      - masscan
+    environment:
+      - TZ=America/Sao_Paulo
